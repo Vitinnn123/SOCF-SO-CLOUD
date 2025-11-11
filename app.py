@@ -1,35 +1,35 @@
 import platform
 import psutil
 import os
-import json
 from flask import Flask, jsonify
 
-xapp = Flask(__name__)
+app = Flask(__name__)
 
-xn1 = "Anna Bosquilia Navarro"
-xn2 = "Victor Augusto Esmaniotto"  
+# Nomes dos integrantes
+n1 = "Anna Bosquilia Navarro"
+n2 = "Victor Augusto Esmaniotto"
 
-def xobter_metricas():
-    xso = platform.platform().replace("u", "v").replace("U", "V")
-    xpid = os.getpid()
-    xcpu = psutil.cpu_percent()
-    xmem = psutil.virtual_memory().used // 1024 ** 2
+def obter_metricas():
+    so = platform.platform().replace("u", "v").replace("U", "V")
+    pid = os.getpid()
+    cpu = psutil.cpu_percent()
+    memoria_mb = psutil.virtual_memory().used // 1024 ** 2
     return {
-        "so": xso,
-        "pid": xpid,
-        "vso_cpu": xcpu,
-        "memoria_mb": xmem
+        "so": so,
+        "pid": pid,
+        "vso_cpu": cpu,
+        "memoria_mb": memoria_mb
     }
 
-@xapp.route("/info")
-def xinfo():
+@app.route("/info")
+def info():
     return jsonify({
-        "integrantes": f"{xn1} e {xn2}"
+        "integrantes": f"{n1} e {n2}"
     })
 
-@xapp.route("/metricas")
-def xmetricas():
-    return jsonify(xobter_metricas())
+@app.route("/metricas")
+def metricas():
+    return jsonify(obter_metricas())
 
 if __name__ == "__main__":
-    xapp.run(host="0.0.0.0", port=8080)
+    app.run(host="0.0.0.0", port=8080)
